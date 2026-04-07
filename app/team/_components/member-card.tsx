@@ -6,14 +6,19 @@ interface MemberCardProps {
   role: string;
   badges?: string[];
   isPi?: boolean;
+  photoUrl?: string;
 }
 
-export function MemberCard({ name, nameKr, role, badges, isPi }: MemberCardProps) {
+export function MemberCard({ name, nameKr, role, badges, isPi, photoUrl }: MemberCardProps) {
   return (
     <div className="group rounded-lg border border-border bg-card overflow-hidden transition-colors hover:bg-accent/50">
-      {/* Photo placeholder */}
-      <div className={`${isPi ? "h-40 w-40" : "aspect-[3/4]"} bg-[#1a1a2e] flex items-center justify-center`}>
-        <User className={`${isPi ? "h-16 w-16" : "h-10 w-10"} text-gray-600`} />
+      {/* Photo */}
+      <div className={`${isPi ? "h-40 w-40" : "aspect-3/4"} bg-[#1a1a2e] flex items-center justify-center`}>
+        {photoUrl ? (
+          <img src={photoUrl} alt={name} className="w-full h-full object-cover" />
+        ) : (
+          <User className={`${isPi ? "h-16 w-16" : "h-10 w-10"} text-gray-600`} />
+        )}
       </div>
       <div className="p-3">
         <p className="text-sm font-medium text-white">{name}</p>

@@ -2,8 +2,18 @@ import { HeroSection } from "./_components/hero-section";
 import { ResearchHighlights } from "./_components/research-highlights";
 import { LatestNews } from "./_components/latest-news";
 import { FeaturedPublications } from "./_components/featured-publications";
+import { getSupporters } from "@/lib/supabase/queries";
 
-export default function Home() {
+const defaultSupporters = [
+  { name: "NSF" },
+  { name: "DOE" },
+  { name: "STELLAR U" },
+];
+
+export default async function Home() {
+  const dbSupporters = await getSupporters();
+  const supporters = dbSupporters.length > 0 ? dbSupporters : defaultSupporters;
+
   return (
     <>
       <HeroSection />
@@ -21,9 +31,11 @@ export default function Home() {
         <div className="container mx-auto px-4 lg:px-8">
           <p className="text-xs text-gray-600 text-center tracking-widest uppercase mb-4">Supported by</p>
           <div className="flex items-center justify-center gap-8 opacity-40">
-            <div className="h-8 w-20 bg-gray-700 rounded flex items-center justify-center text-[10px] text-gray-400">NSF</div>
-            <div className="h-8 w-20 bg-gray-700 rounded flex items-center justify-center text-[10px] text-gray-400">DOE</div>
-            <div className="h-8 w-24 bg-gray-700 rounded flex items-center justify-center text-[10px] text-gray-400">STELLAR U</div>
+            {supporters.map((s: any) => (
+              <div key={s.name} className="h-8 w-20 bg-gray-700 rounded flex items-center justify-center text-[10px] text-gray-400">
+                {s.name}
+              </div>
+            ))}
           </div>
         </div>
       </section>

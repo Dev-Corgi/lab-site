@@ -1,32 +1,18 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getLatestNews } from "@/lib/supabase/queries";
 
-const newsItems = [
-  {
-    date: "Mar 30th 2026",
-    text: "Our breakthrough research on quantum error correction has been published in Nature Physics, demonstrating a new approach to fault-tolerant quantum computing",
-    link: "#",
-  },
-  {
-    date: "Mar 24th 2026",
-    text: "New discovery in topological superconductors published in Physical Review Letters! We identified novel Majorana zero modes with potential applications in quantum computing",
-    link: "#",
-  },
-  {
-    date: "Feb 25th 2026",
-    text: "Congratulations to Dr. Sarah Chen and Dr. Michael Rodriguez on completing their Ph.D.! They will be joining MIT and Stanford as postdoctoral researchers.",
-  },
-  {
-    date: "Feb 5th 2026",
-    text: "Congrats to Emma Thompson for the Best Poster Award and David Kim for the Outstanding Research Award at the APS March Meeting 2026! 🎉",
-  },
-  {
-    date: "Jan 8th 2026",
-    text: "Congratulations to Prof. James Mitchell for receiving the Stellar University Excellence in Research Award in Physics! 🎉",
-  },
+const defaultNews = [
+  { date_display: "Mar 30th 2026", content: "Our breakthrough research on quantum error correction has been published in Nature Physics.", link_url: "#" },
+  { date_display: "Mar 24th 2026", content: "New discovery in topological superconductors published in Physical Review Letters!", link_url: "#" },
+  { date_display: "Feb 25th 2026", content: "Congratulations to Dr. Sarah Chen and Dr. Michael Rodriguez on completing their Ph.D.!", link_url: "" },
+  { date_display: "Feb 5th 2026", content: "Congrats to Emma Thompson for the Best Poster Award at the APS March Meeting 2026! 🎉", link_url: "" },
+  { date_display: "Jan 8th 2026", content: "Congratulations to Prof. James Mitchell for receiving the Stellar University Excellence in Research Award! 🎉", link_url: "" },
 ];
 
-export function LatestNews() {
+export async function LatestNews() {
+  const dbNews = await getLatestNews(5);
+  const newsItems = dbNews.length > 0 ? dbNews : defaultNews;
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -38,12 +24,12 @@ export function LatestNews() {
       <div className="space-y-5">
         {newsItems.map((item, i) => (
           <div key={i} className="border-l-2 border-border pl-4">
-            <p className="text-xs text-red-400 mb-1">{item.date}</p>
+            <p className="text-xs text-red-400 mb-1">{item.date_display}</p>
             <p className="text-sm text-gray-300 leading-relaxed">
-              {item.text}
-              {item.link && (
+              {item.content}
+              {item.link_url && (
                 <a
-                  href={item.link}
+                  href={item.link_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-400 hover:underline ml-1"

@@ -5,6 +5,7 @@ interface Member {
   nameKr: string;
   role: string;
   badges?: string[];
+  photoUrl?: string;
 }
 
 interface TeamSectionProps {

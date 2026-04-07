@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/page-header";
 import { User } from "lucide-react";
+import { getAlumni } from "@/lib/supabase/queries";
 
 interface AlumniMember {
   name: string;
@@ -8,30 +9,20 @@ interface AlumniMember {
   current: string;
 }
 
-const graduateAlumni: AlumniMember[] = [
+const defaultGrad: AlumniMember[] = [
   { name: "Dr. Elizabeth Moore", year: "2025", degree: "Ph.D. Graduate", current: "Postdoc at Princeton University" },
   { name: "Dr. James Wilson", year: "2025", degree: "Ph.D. Graduate", current: "Research Scientist at IBM Quantum" },
-  { name: "Anna Schmidt", year: "2024", degree: "M.Sc. Graduate", current: "PhD Student at ETH Zurich, Switzerland" },
-  { name: "Carlos Mendez", year: "2024", degree: "M.Sc. Graduate", current: "Quantum Engineer at Google" },
-  { name: "Sophie Laurent", year: "2023", degree: "Ph.D. Graduate", current: "Assistant Professor at University of Toronto" },
-  { name: "Benjamin Taylor", year: "2023", degree: "M.Sc. Graduate", current: "Research Associate at NIST" },
-  { name: "Maya Patel", year: "2022", degree: "M.Sc. Graduate", current: "PhD Student at University of Cambridge, UK" },
-  { name: "Lucas Chen", year: "2022", degree: "Ph.D. Graduate", current: "Senior Scientist at Intel Labs" },
-  { name: "Isabella Rossi", year: "2021", degree: "M.Sc. Graduate", current: "Quantum Software Developer at Rigetti Computing" },
-  { name: "Noah Anderson", year: "2021", degree: "M.Sc. Graduate", current: "Research Engineer at Microsoft Quantum" },
 ];
-
-const formerStaff: AlumniMember[] = [
+const defaultStaff: AlumniMember[] = [
   { name: "Dr. Robert Chang", year: "2023", degree: "Former Research Scientist", current: "Principal Scientist at Honeywell Quantum Solutions" },
-  { name: "Dr. Linda Martinez", year: "2021", degree: "Former Postdoctoral Researcher", current: "Assistant Professor at UC Berkeley" },
+];
+const defaultInterns: AlumniMember[] = [
+  { name: "Ethan Brooks", year: "2024", degree: "Former Undergraduate Intern", current: "PhD Student at Caltech" },
 ];
 
-const formerInterns: AlumniMember[] = [
-  { name: "Ethan Brooks", year: "2024", degree: "Former Undergraduate Intern", current: "PhD Student at Caltech" },
-  { name: "Mia Johnson", year: "2023", degree: "Former Undergraduate Intern", current: "Graduate Student at Harvard University" },
-  { name: "Liam Foster", year: "2022", degree: "Former Undergraduate Intern", current: "Research Assistant at Fermilab" },
-  { name: "Ava Thompson", year: "2021", degree: "Former Undergraduate Intern", current: "PhD Student at University of Chicago" },
-];
+function toAlumni(a: any): AlumniMember {
+  return { name: a.name, year: a.year || "", degree: a.degree || "", current: a.current_position || "" };
+}
 
 function AlumniRow({ member }: { member: AlumniMember }) {
   return (
@@ -64,14 +55,21 @@ function AlumniSection({ title, members }: { title: string; members: AlumniMembe
   );
 }
 
-export default function AlumniPage() {
+export default async function AlumniPage() {
+  const dbAlumni = await getAlumni();
+  const hasDb = dbAlumni.length > 0;
+
+  const graduateAlumni = hasDb ? dbAlumni.filter((a: any) => a.type === "graduate").map(toAlumni) : defaultGrad;
+  const formerStaff = hasDb ? dbAlumni.filter((a: any) => a.type === "staff").map(toAlumni) : defaultStaff;
+  const formerInterns = hasDb ? dbAlumni.filter((a: any) => a.type === "intern").map(toAlumni) : defaultInterns;
+
   return (
     <div className="container mx-auto px-4 lg:px-8 py-10">
       <PageHeader title="Alumni" breadcrumb="Alumni" />
       <div className="space-y-10">
-        <AlumniSection title="Graduate Alumni" members={graduateAlumni} />
-        <AlumniSection title="Former Staff" members={formerStaff} />
-        <AlumniSection title="Former Undergraduate Interns" members={formerInterns} />
+        {graduateAlumni.length > 0 && <AlumniSection title="Graduate Alumni" members={graduateAlumni} />}
+        {formerStaff.length > 0 && <AlumniSection title="Former Staff" members={formerStaff} />}
+        {formerInterns.length > 0 && <AlumniSection title="Former Undergraduate Interns" members={formerInterns} />}
       </div>
     </div>
   );

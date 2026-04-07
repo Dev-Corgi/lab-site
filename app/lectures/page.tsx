@@ -1,27 +1,17 @@
 import { PageHeader } from "@/components/page-header";
 import { LectureCard } from "./_components/lecture-card";
+import { getLectures } from "@/lib/supabase/queries";
 
-const mainCourses = [
-  {
-    title: "Quantum Mechanics",
-    description: "An undergraduate course covering fundamental principles of quantum mechanics.",
-    links: [
-      { label: "Course Notes", url: "#" },
-      { label: "Problem Sets", url: "#" },
-      { label: "Lecture Videos", url: "#" },
-    ],
-  },
-  {
-    title: "Condensed Matter Physics",
-    description: "Graduate-level course on solid state physics and many-body quantum systems.",
-    links: [
-      { label: "Syllabus", url: "#" },
-      { label: "Lecture Notes", url: "#" },
-    ],
-  },
+const defaultCourses = [
+  { title: "Quantum Mechanics", description: "An undergraduate course covering fundamental principles of quantum mechanics.", links: [{ label: "Course Notes", url: "#" }] },
+  { title: "Condensed Matter Physics", description: "Graduate-level course on solid state physics and many-body quantum systems.", links: [{ label: "Syllabus", url: "#" }] },
 ];
 
-export default function LecturesPage() {
+function toLecture(l: any) { return { title: l.title_en || l.title, description: l.description, links: l.links || [] }; }
+
+export default async function LecturesPage() {
+  const dbLectures = await getLectures();
+  const mainCourses = dbLectures.length > 0 ? dbLectures.map(toLecture) : defaultCourses;
   return (
     <div className="container mx-auto px-4 lg:px-8 py-10">
       <PageHeader title="Lectures & Courses" breadcrumb="Lectures" />
