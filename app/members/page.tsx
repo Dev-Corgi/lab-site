@@ -70,7 +70,26 @@ export default function MembersPage() {
   if (loading) {
     return (
       <div className="container mx-auto px-4 lg:px-8 py-10">
-        <p className="text-center text-gray-500">Loading...</p>
+        <div className="h-8 w-32 bg-white/10 rounded-lg animate-pulse mb-4" />
+        <div className="h-4 w-64 bg-white/5 rounded-lg animate-pulse mb-8" />
+        <div className="space-y-12">
+          {[1, 2, 3].map((section) => (
+            <div key={section}>
+              <div className="h-6 w-40 bg-white/10 rounded-lg animate-pulse mb-4" />
+              <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="rounded-lg border border-white/5 bg-white/5 overflow-hidden animate-pulse">
+                    <div className="aspect-3/4 bg-white/5" />
+                    <div className="p-3 space-y-2">
+                      <div className="h-4 bg-white/10 rounded" />
+                      <div className="h-3 bg-white/5 rounded w-2/3" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

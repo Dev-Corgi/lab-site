@@ -65,7 +65,25 @@ export default function NoticesPage() {
   if (loading) {
     return (
       <div className="container mx-auto px-4 lg:px-8 py-10">
-        <p className="text-center text-gray-500">Loading...</p>
+        <div className="h-8 w-32 bg-white/10 rounded-lg animate-pulse mb-4" />
+        <div className="h-4 w-64 bg-white/5 rounded-lg animate-pulse mb-8" />
+        <div className="flex gap-2 mb-6">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-8 w-20 bg-white/10 rounded-lg animate-pulse" />
+          ))}
+        </div>
+        <div className="space-y-4">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="rounded-lg border border-white/5 bg-white/5 p-5 animate-pulse">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="h-5 w-16 bg-white/10 rounded" />
+                <div className="h-4 w-24 bg-white/5 rounded" />
+              </div>
+              <div className="h-5 bg-white/10 rounded mb-2" />
+              <div className="h-4 bg-white/5 rounded w-full" />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
