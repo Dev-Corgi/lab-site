@@ -4,20 +4,19 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
-  Settings, Home, Users, FlaskConical, BookOpen, Wrench,
-  GraduationCap, Newspaper, Briefcase, MapPin, UserCheck,
+  Settings, Home, Users, FlaskConical, BookOpen,
+  Newspaper, MapPin, UserCheck, BarChart3, Bell,
 } from "lucide-react";
 
 const sections = [
+  { href: "/admin/dashboard/analytics", label: "방문자 통계", desc: "일간/주간/월간 통계", icon: BarChart3, table: "analytics" },
   { href: "/admin/dashboard/basic", label: "기본 정보", desc: "사이트명, 설명 등", icon: Settings, table: "site_settings" },
   { href: "/admin/dashboard/homepage", label: "홈페이지", desc: "히어로, 하이라이트", icon: Home, table: "research_highlights" },
-  { href: "/admin/dashboard/team", label: "팀원", desc: "", icon: Users, table: "team_members" },
+  { href: "/admin/dashboard/team", label: "구성원", desc: "", icon: Users, table: "team_members" },
   { href: "/admin/dashboard/research", label: "연구", desc: "", icon: FlaskConical, table: "research_areas" },
   { href: "/admin/dashboard/publications", label: "출판물", desc: "", icon: BookOpen, table: "publications" },
-  { href: "/admin/dashboard/tools", label: "도구", desc: "", icon: Wrench, table: "tools" },
-  { href: "/admin/dashboard/lectures", label: "강의", desc: "", icon: GraduationCap, table: "lectures" },
   { href: "/admin/dashboard/news", label: "뉴스", desc: "", icon: Newspaper, table: "news" },
-  { href: "/admin/dashboard/join", label: "채용", desc: "모집 정보", icon: Briefcase, table: "job_openings" },
+  { href: "/admin/dashboard/notices", label: "공지사항", desc: "학회, 세미나 공지", icon: Bell, table: "notices" },
   { href: "/admin/dashboard/contact", label: "연락처", desc: "위치, 이메일", icon: MapPin, table: "contact_info" },
   { href: "/admin/dashboard/alumni", label: "동문", desc: "", icon: UserCheck, table: "alumni" },
 ];
@@ -27,7 +26,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const supabase = createClient();
-    const tables = ["team_members", "research_areas", "publications", "tools", "lectures", "news", "alumni", "research_highlights"];
+    const tables = ["team_members", "research_areas", "publications", "news", "alumni", "research_highlights", "notices"];
     tables.forEach(async (t) => {
       const { count } = await supabase.from(t).select("*", { count: "exact", head: true });
       setCounts((prev) => ({ ...prev, [t]: count ?? 0 }));

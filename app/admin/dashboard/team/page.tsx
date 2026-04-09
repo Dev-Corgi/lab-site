@@ -7,14 +7,32 @@ import { ImageUpload } from "../_components/image-upload";
 
 const ROLES = [
   { value: "pi", label: "PI (Principal Investigator)" },
-  { value: "graduate", label: "대학원생" },
+  { value: "phd", label: "박사과정" },
+  { value: "graduate", label: "석사과정" },
   { value: "staff", label: "연구원/스태프" },
-  { value: "intern", label: "학부 인턴" },
+  { value: "intern", label: "학부연구생" },
 ];
 
-const ROLE_LABELS: Record<string, string> = { pi: "PI", graduate: "대학원생", staff: "스태프", intern: "인턴" };
+const ROLE_LABELS: Record<string, string> = { 
+  pi: "PI", 
+  phd: "박사과정",
+  graduate: "석사과정", 
+  staff: "스태프", 
+  intern: "학부연구생" 
+};
 
-const emptyMember = { name_en: "", name_kr: "", role: "graduate", title: "", field: "", email: "", badges: [] as string[], photo_url: "", sort_order: 0 };
+const emptyMember = { 
+  name_en: "", 
+  name_kr: "", 
+  role: "graduate", 
+  title: "", 
+  field: "", 
+  email: "", 
+  current_position: "",
+  badges: [] as string[], 
+  photo_url: "",
+  sort_order: 0 
+};
 
 export default function TeamManagePage() {
   const [members, setMembers] = useState<any[]>([]);
@@ -161,6 +179,12 @@ export default function TeamManagePage() {
                 className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors" />
             </div>
             <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">현재 직장/소속 (졸업 후)</label>
+              <input type="text" value={panel.current_position || ""} onChange={e => setPanel({ ...panel, current_position: e.target.value })}
+                placeholder="예: Assistant Professor at Stanford University"
+                className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-gray-600 outline-none focus:border-red-500/50 transition-colors" />
+            </div>
+            <div>
               <label className="block text-sm font-medium text-gray-300 mb-1.5">Photo</label>
               <ImageUpload
                 value={panel.photo_url || ""}
@@ -168,6 +192,7 @@ export default function TeamManagePage() {
                 folder="team-members"
               />
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1.5">배지/태그</label>
               <div className="flex flex-wrap gap-1.5 mb-2">

@@ -5,21 +5,20 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
-  Settings, Home, Users, FlaskConical, BookOpen, Wrench,
-  GraduationCap, Newspaper, Briefcase, MapPin, UserCheck, Globe, LogOut, ShieldCheck,
+  Settings, Home, Users, FlaskConical, BookOpen,
+  Newspaper, MapPin, UserCheck, Globe, LogOut, ShieldCheck, BarChart3, Bell,
 } from "lucide-react";
 
 const navItems = [
   { href: "/admin/dashboard", label: "대시보드", icon: Home },
+  { href: "/admin/dashboard/analytics", label: "방문자 통계", icon: BarChart3 },
   { href: "/admin/dashboard/basic", label: "기본 정보", icon: Settings },
   { href: "/admin/dashboard/homepage", label: "홈페이지", icon: Home },
-  { href: "/admin/dashboard/team", label: "팀", icon: Users },
+  { href: "/admin/dashboard/team", label: "구성원", icon: Users },
   { href: "/admin/dashboard/research", label: "연구", icon: FlaskConical },
   { href: "/admin/dashboard/publications", label: "출판물", icon: BookOpen },
-  { href: "/admin/dashboard/tools", label: "도구", icon: Wrench },
-  { href: "/admin/dashboard/lectures", label: "강의", icon: GraduationCap },
   { href: "/admin/dashboard/news", label: "뉴스", icon: Newspaper },
-  { href: "/admin/dashboard/join", label: "채용", icon: Briefcase },
+  { href: "/admin/dashboard/notices", label: "공지사항", icon: Bell },
   { href: "/admin/dashboard/contact", label: "연락처", icon: MapPin },
   { href: "/admin/dashboard/alumni", label: "동문", icon: UserCheck },
 ];
