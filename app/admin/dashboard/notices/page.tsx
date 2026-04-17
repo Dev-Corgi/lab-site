@@ -198,13 +198,11 @@ export default function NoticesManagePage() {
                 <select
                   value={edit.notice_type}
                   onChange={(e) => setEdit({ ...edit, notice_type: e.target.value })}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors"
+                  className="w-full rounded-lg border border-white/10 bg-[#0d0d16] px-3 py-2 text-sm text-white outline-none focus:border-red-500/50 [&>option]:bg-[#0d0d16] [&>option]:text-white"
                 >
-                  {NOTICE_TYPES.map((t) => (
-                    <option key={t.value} value={t.value}>
-                      {t.label}
-                    </option>
-                  ))}
+                  <option value="conference" className="bg-[#0d0d16] text-white">학회</option>
+                  <option value="seminar" className="bg-[#0d0d16] text-white">세미나</option>
+                  <option value="general" className="bg-[#0d0d16] text-white">일반</option>
                 </select>
               </div>
               <div>

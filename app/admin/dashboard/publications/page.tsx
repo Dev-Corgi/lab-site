@@ -63,9 +63,9 @@ export default function PublicationsManagePage() {
 
       <div className="flex gap-3 mb-5 flex-wrap items-center">
         <select value={filterYear} onChange={e => setFilterYear(e.target.value)}
-          className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none">
-          <option value="all">전체 연도</option>
-          {years.map(y => <option key={y} value={y}>{y}</option>)}
+          className="rounded-lg border border-white/10 bg-[#0d0d16] px-3 py-2 text-sm text-white outline-none [&>option]:bg-[#0d0d16] [&>option]:text-white">
+          <option value="all" className="bg-[#0d0d16] text-white">전체 연도</option>
+          {years.map(y => <option key={y} value={y} className="bg-[#0d0d16] text-white">{y}</option>)}
         </select>
         <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="논문 제목 검색..."
           className="flex-1 min-w-[200px] rounded-lg border border-white/10 bg-white/5 px-3.5 py-2 text-sm text-white placeholder-gray-600 outline-none focus:border-red-500/50 transition-colors" />

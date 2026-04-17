@@ -109,8 +109,8 @@ export default function AlumniManagePage() {
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1.5">유형</label>
                 <select value={edit.type} onChange={e => setEdit({ ...edit, type: e.target.value })}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors">
-                  {TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                  className="w-full rounded-lg border border-white/10 bg-[#0d0d16] px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors [&>option]:bg-[#0d0d16] [&>option]:text-white">
+                  {TYPES.map(t => <option key={t.value} value={t.value} className="bg-[#0d0d16] text-white">{t.label}</option>)}
                 </select>
               </div>
               <div>

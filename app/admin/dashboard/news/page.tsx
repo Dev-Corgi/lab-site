@@ -68,9 +68,9 @@ export default function NewsManagePage() {
 
       <div className="flex gap-3 mb-5">
         <select value={filterYear} onChange={e => setFilterYear(e.target.value)}
-          className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none">
-          <option value="all">전체 연도</option>
-          {years.map(y => <option key={y} value={y}>{y}</option>)}
+          className="rounded-lg border border-white/10 bg-[#0d0d16] px-3 py-2 text-sm text-white outline-none [&>option]:bg-[#0d0d16] [&>option]:text-white">
+          <option value="all" className="bg-[#0d0d16] text-white">전체 연도</option>
+          {years.map(y => <option key={y} value={y} className="bg-[#0d0d16] text-white">{y}</option>)}
         </select>
       </div>
 

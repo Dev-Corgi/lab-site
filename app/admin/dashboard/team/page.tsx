@@ -159,8 +159,8 @@ export default function TeamManagePage() {
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1.5">역할 <span className="text-red-400">*</span></label>
               <select value={panel.role} onChange={e => setPanel({ ...panel, role: e.target.value })}
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors">
-                {ROLES.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
+                className="w-full rounded-lg border border-white/10 bg-[#0d0d16] px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors [&>option]:bg-[#0d0d16] [&>option]:text-white">
+                {ROLES.map(r => <option key={r.value} value={r.value} className="bg-[#0d0d16] text-white">{r.label}</option>)}
               </select>
             </div>
             <div>
