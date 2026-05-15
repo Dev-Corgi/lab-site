@@ -9,6 +9,8 @@ import {
   Newspaper, MapPin, UserCheck, Globe, LogOut, ShieldCheck, BarChart3, Bell,
 } from "lucide-react";
 
+const ACCENT = "#0ea5e9";
+
 const navItems = [
   { href: "/admin/dashboard", label: "대시보드", icon: Home },
   { href: "/admin/dashboard/analytics", label: "방문자 통계", icon: BarChart3 },
@@ -43,17 +45,17 @@ export function Sidebar({ onLogout, onNav }: { onLogout: () => void; onNav?: () 
 
   return (
     <>
-      <div className="px-4 py-5 border-b border-white/5">
+      <div className="px-4 py-5 border-b border-border">
         <div className="flex items-center gap-2">
           <svg width="24" height="24" viewBox="0 0 40 40" fill="none" className="shrink-0">
-            <circle cx="20" cy="20" r="3" fill="#ef4444" />
-            <ellipse cx="20" cy="20" rx="16" ry="6" stroke="#ef4444" strokeWidth="1.5" fill="none" />
-            <ellipse cx="20" cy="20" rx="16" ry="6" stroke="#ef4444" strokeWidth="1.5" fill="none" transform="rotate(60 20 20)" />
-            <ellipse cx="20" cy="20" rx="16" ry="6" stroke="#ef4444" strokeWidth="1.5" fill="none" transform="rotate(120 20 20)" />
+            <circle cx="20" cy="20" r="3" fill={ACCENT} />
+            <ellipse cx="20" cy="20" rx="16" ry="6" stroke={ACCENT} strokeWidth="1.5" fill="none" />
+            <ellipse cx="20" cy="20" rx="16" ry="6" stroke={ACCENT} strokeWidth="1.5" fill="none" transform="rotate(60 20 20)" />
+            <ellipse cx="20" cy="20" rx="16" ry="6" stroke={ACCENT} strokeWidth="1.5" fill="none" transform="rotate(120 20 20)" />
           </svg>
           <div>
-            <p className="text-sm font-semibold text-white">QD Lab</p>
-            <p className="text-[10px] text-gray-500">Admin Panel</p>
+            <p className="text-sm font-semibold text-foreground">QD Lab</p>
+            <p className="text-[10px] text-muted-foreground">Admin Panel</p>
           </div>
         </div>
       </div>
@@ -64,7 +66,7 @@ export function Sidebar({ onLogout, onNav }: { onLogout: () => void; onNav?: () 
           return (
             <Link key={item.href} href={item.href} onClick={onNav}
               className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors ${
-                active ? "bg-red-500/10 text-red-400 font-medium" : "text-gray-400 hover:text-gray-200 hover:bg-white/5"
+                active ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}>
               <Icon className="h-4 w-4 shrink-0" />
               {item.label}
@@ -73,10 +75,10 @@ export function Sidebar({ onLogout, onNav }: { onLogout: () => void; onNav?: () 
         })}
         {isSuperAdmin && (
           <>
-            <div className="h-px bg-white/5 my-2" />
+            <div className="h-px bg-border my-2" />
             <Link href="/admin/dashboard/approvals" onClick={onNav}
               className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors ${
-                pathname === "/admin/dashboard/approvals" ? "bg-yellow-500/10 text-yellow-400 font-medium" : "text-gray-400 hover:text-gray-200 hover:bg-white/5"
+                pathname === "/admin/dashboard/approvals" ? "bg-amber-500/10 text-amber-700 font-medium" : "text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}>
               <ShieldCheck className="h-4 w-4 shrink-0" />
               관리자 승인
@@ -84,11 +86,11 @@ export function Sidebar({ onLogout, onNav }: { onLogout: () => void; onNav?: () 
           </>
         )}
       </nav>
-      <div className="px-2 py-3 border-t border-white/5 space-y-0.5">
-        <Link href="/" target="_blank" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-colors">
+      <div className="px-2 py-3 border-t border-border space-y-0.5">
+        <Link href="/" target="_blank" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
           <Globe className="h-4 w-4 shrink-0" />사이트 보기
         </Link>
-        <button onClick={onLogout} className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-gray-400 hover:text-red-400 hover:bg-red-500/5 transition-colors w-full">
+        <button type="button" onClick={onLogout} className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-muted-foreground hover:text-destructive hover:bg-destructive/5 transition-colors w-full">
           <LogOut className="h-4 w-4 shrink-0" />로그아웃
         </button>
       </div>

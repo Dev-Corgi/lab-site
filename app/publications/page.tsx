@@ -5,6 +5,7 @@ import { PublicationItem } from "./_components/publication-item";
 import { useI18n } from "@/lib/i18n/context";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { fetchCmsListWithAnonFallback } from "@/lib/cms-browser";
 
 const defaultPubs = [
   { title: "Quantum error correction in topological qubits using machine learning algorithms", authors: "Mitchell JA, Chen S, Rodriguez M, Thompson E", journal: "Nature Physics", year: "2026", volume: "22: 145-152", linkUrl: "#", doiUrl: "#" },
@@ -23,12 +24,12 @@ function PublicationsSkeleton() {
       <div className="space-y-10">
         {[1, 2, 3].map((year) => (
           <div key={year}>
-            <div className="h-6 w-20 bg-white/10 rounded-lg animate-pulse mb-2 border-b border-white/5 pb-2" />
+            <div className="h-6 w-20 bg-white/10 rounded-lg animate-pulse mb-2 border-b border-border pb-2" />
             <div className="space-y-4">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="py-3 animate-pulse">
                   <div className="h-5 bg-white/10 rounded mb-2" />
-                  <div className="h-4 bg-white/5 rounded w-3/4" />
+                  <div className="h-4 bg-muted/60 rounded w-3/4" />
                 </div>
               ))}
             </div>
@@ -46,10 +47,13 @@ export default function PublicationsPage() {
 
   useEffect(() => {
     const loadData = async () => {
-      const supabase = createClient();
-      const { data } = await supabase.from("publications").select("*");
-      if (data && data.length > 0) {
-        setPublications(data.map(toPub));
+      const dataRaw = await fetchCmsListWithAnonFallback("publications", async () => {
+        const supabase = createClient();
+        const { data: rows } = await supabase.from("publications").select("*").order("year", { ascending: false });
+        return rows ?? [];
+      });
+      if (Array.isArray(dataRaw) && dataRaw.length > 0) {
+        setPublications(dataRaw.map(toPub));
       }
       setLoading(false);
     };
@@ -68,7 +72,7 @@ export default function PublicationsPage() {
       <div className="space-y-10">
         {years.map((year) => (
           <div key={year}>
-            <h2 className="text-xl font-bold text-white mb-2 border-b border-border/50 pb-2">{year}</h2>
+            <h2 className="text-xl font-bold text-foreground mb-2 border-b border-border/50 pb-2">{year}</h2>
             <div>
               {publications
                 .filter((p) => p.year === year)

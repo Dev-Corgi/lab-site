@@ -24,7 +24,7 @@ export function TeamSection({ title, members, isPi, columns = 5 }: TeamSectionPr
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-red-400">{title}</h2>
+      <h2 className="text-xl font-semibold text-primary">{title}</h2>
       <div className={gridClass}>
         {members.map((m) => (
           <MemberCard key={m.name} {...m} isPi={isPi} />

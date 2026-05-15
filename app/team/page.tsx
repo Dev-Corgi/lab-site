@@ -37,7 +37,7 @@ export default async function TeamPage() {
       <PageHeader
         title="Our Team"
         breadcrumb="Team"
-        description={`Meet the members of ${settings?.lab_name_en || "Quantum Dynamics Lab"} at ${settings?.university || "Stellar University"}.`}
+        description={`Meet the members of ${settings?.lab_name_en || "Fiber Optics Labratory"} at ${settings?.university || "Stellar University"}.`}
       />
       <div className="space-y-12">
         <TeamSection title="Principal Investigator" members={pi} isPi />
@@ -46,7 +46,7 @@ export default async function TeamPage() {
         <TeamSection title="Undergraduate Interns" members={interns} />
       </div>
       <div className="mt-10">
-        <LinkButton href="/alumni" variant="outline" className="border-gray-600 text-gray-300 hover:bg-white/5">
+        <LinkButton href="/alumni" variant="outline" className="border-border text-muted-foreground hover:bg-muted/60">
           View Alumni <ArrowRight className="ml-1 h-4 w-4" />
         </LinkButton>
       </div>

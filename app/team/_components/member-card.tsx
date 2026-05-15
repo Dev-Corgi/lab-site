@@ -13,7 +13,7 @@ export function MemberCard({ name, nameKr, role, badges, isPi, photoUrl }: Membe
   return (
     <div className="group rounded-lg border border-border bg-card overflow-hidden transition-colors hover:bg-accent/50">
       {/* Photo */}
-      <div className={`${isPi ? "h-40 w-40" : "aspect-3/4"} bg-[#1a1a2e] flex items-center justify-center`}>
+      <div className={`${isPi ? "h-40 w-40" : "aspect-3/4"} bg-sky-50 flex items-center justify-center`}>
         {photoUrl ? (
           <img src={photoUrl} alt={name} className="w-full h-full object-cover" />
         ) : (
@@ -21,7 +21,7 @@ export function MemberCard({ name, nameKr, role, badges, isPi, photoUrl }: Membe
         )}
       </div>
       <div className="p-3">
-        <p className="text-sm font-medium text-white">{name}</p>
+        <p className="text-sm font-medium text-foreground">{name}</p>
         <p className="text-xs text-gray-500">{nameKr}</p>
         <p className="text-xs text-gray-400 mt-0.5">{role}</p>
         {badges && badges.length > 0 && (

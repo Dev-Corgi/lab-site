@@ -31,14 +31,14 @@ export default function AnalyticsPage() {
   };
 
   const StatCard = ({ icon: Icon, label, value, color }: any) => (
-    <div className="rounded-xl border border-white/5 bg-[#0d0d18] p-6">
+    <div className="rounded-xl border border-border bg-card p-6">
       <div className="flex items-center justify-between mb-4">
         <div className={`p-3 rounded-lg bg-${color}-500/10`}>
           <Icon className={`h-6 w-6 text-${color}-400`} />
         </div>
         <span className="text-xs text-gray-500 uppercase tracking-wider">{label}</span>
       </div>
-      <p className="text-3xl font-bold text-white">{value.toLocaleString()}</p>
+      <p className="text-3xl font-bold text-foreground">{value.toLocaleString()}</p>
     </div>
   );
 
@@ -53,7 +53,7 @@ export default function AnalyticsPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">방문자 통계</h1>
+        <h1 className="text-2xl font-bold text-foreground">방문자 통계</h1>
         <p className="text-sm text-gray-500 mt-1">웹사이트 방문자 현황을 확인하세요</p>
       </div>
 

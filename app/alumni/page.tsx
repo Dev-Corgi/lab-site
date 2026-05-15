@@ -5,6 +5,7 @@ import { User } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { fetchCmsListWithAnonFallback } from "@/lib/cms-browser";
 
 interface AlumniMember {
   name: string;
@@ -31,11 +32,11 @@ function toAlumni(a: any): AlumniMember {
 function AlumniRow({ member, currentLabel }: { member: AlumniMember; currentLabel: string }) {
   return (
     <div className="flex items-center gap-4 py-4 border-b border-border/50">
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1a1a2e] shrink-0">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-50 shrink-0">
         <User className="h-6 w-6 text-gray-600" />
       </div>
       <div className="min-w-0">
-        <p className="text-sm font-medium text-white">
+        <p className="text-sm font-medium text-foreground">
           {member.name}
           <span className="text-xs text-yellow-500 ml-2">{member.year}</span>
         </p>
@@ -49,7 +50,7 @@ function AlumniRow({ member, currentLabel }: { member: AlumniMember; currentLabe
 function AlumniSection({ title, members, currentLabel }: { title: string; members: AlumniMember[]; currentLabel: string }) {
   return (
     <div>
-      <h2 className="text-xl font-semibold text-red-400 mb-2">{title}</h2>
+      <h2 className="text-xl font-semibold text-primary mb-2">{title}</h2>
       <div>
         {members.map((m) => (
           <AlumniRow key={m.name} member={m} currentLabel={currentLabel} />
@@ -69,11 +70,11 @@ function AlumniSkeleton() {
             <div className="h-6 w-40 bg-white/10 rounded-lg animate-pulse mb-2" />
             <div className="space-y-1">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="flex items-center gap-4 py-4 border-b border-white/5 animate-pulse">
-                  <div className="h-12 w-12 rounded-full bg-white/5 shrink-0" />
+                <div key={i} className="flex items-center gap-4 py-4 border-b border-border animate-pulse">
+                  <div className="h-12 w-12 rounded-full bg-muted/60 shrink-0" />
                   <div className="flex-1 space-y-2">
                     <div className="h-4 bg-white/10 rounded w-48" />
-                    <div className="h-3 bg-white/5 rounded w-32" />
+                    <div className="h-3 bg-muted/60 rounded w-32" />
                   </div>
                 </div>
               ))}
@@ -94,13 +95,16 @@ export default function AlumniPage() {
 
   useEffect(() => {
     const loadData = async () => {
-      const supabase = createClient();
-      const { data } = await supabase.from("alumni").select("*");
-      
-      if (data && data.length > 0) {
-        setGraduateAlumni(data.filter((a: any) => a.type === "graduate").map(toAlumni));
-        setFormerStaff(data.filter((a: any) => a.type === "staff").map(toAlumni));
-        setFormerInterns(data.filter((a: any) => a.type === "intern").map(toAlumni));
+      const rows = await fetchCmsListWithAnonFallback("alumni-list", async () => {
+        const supabase = createClient();
+        const { data: fallbackRows } = await supabase.from("alumni").select("*").order("year", { ascending: false });
+        return fallbackRows ?? [];
+      });
+
+      if (rows.length > 0) {
+        setGraduateAlumni(rows.filter((a) => (a as Record<string, unknown>).type === "graduate").map(toAlumni));
+        setFormerStaff(rows.filter((a) => (a as Record<string, unknown>).type === "staff").map(toAlumni));
+        setFormerInterns(rows.filter((a) => (a as Record<string, unknown>).type === "intern").map(toAlumni));
       }
       setLoading(false);
     };

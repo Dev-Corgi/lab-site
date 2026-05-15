@@ -48,49 +48,100 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Light canvas + sky accent (tweakcn-style clarity) */
 :root {
-  --background: #0a0a0f;
-  --foreground: #e4e4e7;
-  --card: #111118;
-  --card-foreground: #e4e4e7;
-  --popover: #111118;
-  --popover-foreground: #e4e4e7;
-  --primary: #dc2626;
+  --background: #ffffff;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+  --primary: #0ea5e9;
   --primary-foreground: #ffffff;
-  --secondary: #1a1a24;
-  --secondary-foreground: #e4e4e7;
-  --muted: #1a1a24;
-  --muted-foreground: #8b8b9a;
-  --accent: #1e1e2a;
-  --accent-foreground: #e4e4e7;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #4b5563;
+  --accent: #e0f2fe;
+  --accent-foreground: #0c4a6e;
   --destructive: #dc2626;
-  --border: #1e2030;
-  --input: #1e2030;
-  --ring: #dc2626;
-  --chart-1: #dc2626;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #38bdf8;
+  --chart-1: #0ea5e9;
   --chart-2: #3b82f6;
   --chart-3: #eab308;
   --chart-4: #22c55e;
   --chart-5: #a855f7;
   --radius: 0.5rem;
-  --sidebar: #0a0a0f;
-  --sidebar-foreground: #e4e4e7;
-  --sidebar-primary: #dc2626;
+  --sidebar: #f8fafc;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #0ea5e9;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1e1e2a;
-  --sidebar-accent-foreground: #e4e4e7;
-  --sidebar-border: #1e2030;
-  --sidebar-ring: #dc2626;
+  --sidebar-accent: #e0f2fe;
+  --sidebar-accent-foreground: #0c4a6e;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #38bdf8;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
   html {
     @apply font-sans;
   }
+  body {
+    @apply bg-background text-foreground min-h-full antialiased;
+    background-image:
+      linear-gradient(to right, rgba(15, 23, 42, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-attachment: fixed;
+  }
+}
+
+/* 연구 상세 본문 — 라이트 모드 */
+.research-prose {
+  @apply text-[15px] leading-relaxed text-muted-foreground;
+}
+.research-prose h2 {
+  @apply text-xl font-semibold text-foreground mt-10 mb-3;
+}
+.research-prose h3 {
+  @apply text-lg font-semibold text-foreground mt-8 mb-2;
+}
+.research-prose p {
+  @apply my-4;
+}
+.research-prose ul,
+.research-prose ol {
+  @apply my-4 pl-6 space-y-2;
+}
+.research-prose ul {
+  @apply list-disc;
+}
+.research-prose ol {
+  @apply list-decimal;
+}
+.research-prose li {
+  @apply pl-1;
+}
+.research-prose a {
+  @apply text-primary underline underline-offset-2 hover:text-sky-600 transition-colors;
+}
+.research-prose strong {
+  @apply text-foreground font-semibold;
+}
+.research-prose blockquote {
+  @apply border-l-2 border-primary/40 pl-4 my-6 text-muted-foreground italic;
+}
+.research-prose code {
+  @apply text-sm bg-muted px-1.5 py-0.5 rounded text-foreground;
+}
+.research-prose pre {
+  @apply bg-muted border border-border rounded-lg p-4 overflow-x-auto my-6 text-sm text-foreground;
+}
+.research-prose hr {
+  @apply border-border my-10;
 }

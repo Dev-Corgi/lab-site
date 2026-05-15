@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { fetchCmsListWithAnonFallback } from "@/lib/cms-browser";
 
 const defaultNews = [
   { date_display: "Mar 30th 2026", content: "Our breakthrough research on quantum error correction has been published in Nature Physics.", content_kr: "양자 오류 수정에 대한 우리의 획기적인 연구가 Nature Physics에 게재되었습니다.", link_url: "#" },
@@ -19,13 +20,13 @@ function NewsSkeleton() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="h-7 w-32 bg-white/10 rounded animate-pulse" />
-        <div className="h-4 w-20 bg-white/5 rounded animate-pulse" />
+        <div className="h-4 w-20 bg-muted/60 rounded animate-pulse" />
       </div>
       <div className="space-y-5">
         {[1, 2, 3, 4, 5].map((i) => (
-          <div key={i} className="border-l-2 border-white/5 pl-4 animate-pulse">
+          <div key={i} className="border-l-2 border-border pl-4 animate-pulse">
             <div className="h-3 w-20 bg-white/10 rounded mb-2" />
-            <div className="h-4 bg-white/5 rounded w-full" />
+            <div className="h-4 bg-muted/60 rounded w-full" />
           </div>
         ))}
       </div>
@@ -40,13 +41,22 @@ export function LatestNews() {
 
   useEffect(() => {
     const loadData = async () => {
-      const supabase = createClient();
-      const { data } = await supabase.from("news").select("*").order("date", { ascending: false }).limit(5);
-      if (data && data.length > 0) {
-        setNewsItems(data.map((n: any) => ({
-          ...n,
-          content: language === "ko" && n.content_kr ? n.content_kr : n.content
-        })));
+      const rows = await fetchCmsListWithAnonFallback("news-latest", async () => {
+        const supabase = createClient();
+        const { data: fallbackRows } = await supabase.from("news").select("*").order("date", { ascending: false }).limit(5);
+        return fallbackRows ?? [];
+      });
+      if (Array.isArray(rows) && rows.length > 0) {
+        setNewsItems(
+          rows.map((raw) => {
+            const n = raw as Record<string, unknown>;
+            return {
+              ...n,
+              content:
+                language === "ko" && typeof n.content_kr === "string" && n.content_kr ? n.content_kr : String(n.content ?? ""),
+            };
+          }) as typeof defaultNews,
+        );
       } else {
         setNewsItems(defaultNews.map(n => ({
           ...n,
@@ -65,16 +75,16 @@ export function LatestNews() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-white">{t("최신 뉴스", "Latest News")}</h2>
-        <Link href="/news" className="text-red-400 text-sm flex items-center gap-1 hover:text-red-300 transition-colors">
+        <h2 className="text-2xl font-bold text-foreground">{t("최신 뉴스", "Latest News")}</h2>
+        <Link href="/news" className="text-primary text-sm flex items-center gap-1 hover:text-sky-700 transition-colors">
           {t("전체 보기", "View All")} <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
       <div className="space-y-5">
         {newsItems.map((item, i) => (
           <div key={i} className="border-l-2 border-border pl-4">
-            <p className="text-xs text-red-400 mb-1">{item.date_display}</p>
-            <p className="text-sm text-gray-300 leading-relaxed">
+            <p className="text-xs text-primary mb-1">{item.date_display}</p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
               {item.content}
               {item.link_url && (
                 <a

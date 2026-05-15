@@ -50,40 +50,40 @@ export default function PublicationsManagePage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">출판물 관리</h1>
+          <h1 className="text-2xl font-bold text-foreground">출판물 관리</h1>
           <p className="text-sm text-gray-500 mt-1">총 {items.length}편 등록됨</p>
         </div>
         <button onClick={() => setEdit({ ...empty })}
-          className="flex items-center gap-1.5 rounded-lg bg-red-600 hover:bg-red-700 px-4 py-2 text-sm font-medium text-white transition-colors">
+          className="flex items-center gap-1.5 rounded-lg bg-primary hover:bg-primary/90 px-4 py-2 text-sm font-medium text-primary-foreground transition-colors">
           <Plus className="h-4 w-4" /> 논문 추가
         </button>
       </div>
 
-      {msg && <div className="mb-4 rounded-lg px-4 py-2.5 text-sm bg-green-500/10 text-green-400 border border-green-500/20">{msg}</div>}
+      {msg && <div className="mb-4 rounded-lg px-4 py-2.5 text-sm bg-green-500/10 text-green-700 border border-green-500/30">{msg}</div>}
 
       <div className="flex gap-3 mb-5 flex-wrap items-center">
         <select value={filterYear} onChange={e => setFilterYear(e.target.value)}
-          className="rounded-lg border border-white/10 bg-[#0d0d16] px-3 py-2 text-sm text-white outline-none [&>option]:bg-[#0d0d16] [&>option]:text-white">
-          <option value="all" className="bg-[#0d0d16] text-white">전체 연도</option>
-          {years.map(y => <option key={y} value={y} className="bg-[#0d0d16] text-white">{y}</option>)}
+          className="rounded-lg border border-border bg-sidebar px-3 py-2 text-sm text-foreground outline-none [&>option]:bg-sidebar \[\&>option\]:text-foreground">
+          <option value="all" className="bg-sidebar text-foreground">전체 연도</option>
+          {years.map(y => <option key={y} value={y} className="bg-sidebar text-foreground">{y}</option>)}
         </select>
         <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="논문 제목 검색..."
-          className="flex-1 min-w-[200px] rounded-lg border border-white/10 bg-white/5 px-3.5 py-2 text-sm text-white placeholder-gray-600 outline-none focus:border-red-500/50 transition-colors" />
+          className="flex-1 min-w-[200px] rounded-lg border border-border bg-muted/60 px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary/50 transition-colors" />
       </div>
 
       <div className="space-y-2">
         {filtered.map(p => (
-          <div key={p.id} className="rounded-xl border border-white/5 bg-[#0d0d18] p-4">
+          <div key={p.id} className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-sm font-medium text-white leading-snug">{p.title}</p>
+                <p className="text-sm font-medium text-foreground leading-snug">{p.title}</p>
                 <p className="text-xs text-gray-500 mt-1">{p.authors}</p>
                 <p className="text-xs text-gray-600 mt-0.5">{p.journal} · {p.year}{p.volume_page ? ` · ${p.volume_page}` : ""}</p>
               </div>
               <div className="flex gap-1.5 shrink-0">
-                {p.is_featured && <span className="px-1.5 py-0.5 rounded text-[10px] bg-yellow-500/10 text-yellow-400">Featured</span>}
-                <button onClick={() => setEdit(p)} className="text-gray-500 hover:text-white"><Pencil className="h-4 w-4" /></button>
-                <button onClick={() => handleDelete(p.id)} className="text-gray-500 hover:text-red-400"><Trash2 className="h-4 w-4" /></button>
+                {p.is_featured && <span className="px-1.5 py-0.5 rounded text-[10px] bg-amber-500/15 text-amber-700">Featured</span>}
+                <button onClick={() => setEdit(p)} className="text-gray-500 hover:text-foreground"><Pencil className="h-4 w-4" /></button>
+                <button onClick={() => handleDelete(p.id)} className="text-gray-500 hover:text-primary"><Trash2 className="h-4 w-4" /></button>
               </div>
             </div>
           </div>
@@ -94,51 +94,51 @@ export default function PublicationsManagePage() {
       {/* Modal */}
       {edit && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-          <div className="w-full max-w-lg rounded-xl border border-white/10 bg-[#0d0d18] p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+          <div className="w-full max-w-lg rounded-xl border border-border bg-card p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-bold text-white">{edit.id ? "논문 편집" : "논문 추가"}</h2>
-              <button onClick={() => setEdit(null)} className="text-gray-500 hover:text-white"><X className="h-5 w-5" /></button>
+              <h2 className="text-lg font-bold text-foreground">{edit.id ? "논문 편집" : "논문 추가"}</h2>
+              <button onClick={() => setEdit(null)} className="text-gray-500 hover:text-foreground"><X className="h-5 w-5" /></button>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">논문 제목 <span className="text-red-400">*</span></label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1.5">논문 제목 <span className="text-primary">*</span></label>
               <textarea rows={2} value={edit.title} onChange={e => setEdit({ ...edit, title: e.target.value })}
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors resize-none" />
+                className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-primary/50 transition-colors resize-none" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">저자 목록 <span className="text-red-400">*</span></label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1.5">저자 목록 <span className="text-primary">*</span></label>
               <input type="text" value={edit.authors} onChange={e => setEdit({ ...edit, authors: e.target.value })} placeholder="Kim A, Lee B, Park C"
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-gray-600 outline-none focus:border-red-500/50 transition-colors" />
+                className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary/50 transition-colors" />
               <p className="text-[11px] text-gray-600 mt-1">쉼표로 구분하여 입력</p>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1.5">저널명</label>
+                <label className="block text-sm font-medium text-muted-foreground mb-1.5">저널명</label>
                 <input type="text" value={edit.journal} onChange={e => setEdit({ ...edit, journal: e.target.value })}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors" />
+                  className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-primary/50 transition-colors" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1.5">연도 <span className="text-red-400">*</span></label>
+                <label className="block text-sm font-medium text-muted-foreground mb-1.5">연도 <span className="text-primary">*</span></label>
                 <input type="text" value={edit.year} onChange={e => setEdit({ ...edit, year: e.target.value })}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors" />
+                  className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-primary/50 transition-colors" />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Volume/Page</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1.5">Volume/Page</label>
               <input type="text" value={edit.volume_page} onChange={e => setEdit({ ...edit, volume_page: e.target.value })}
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors" />
+                className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-primary/50 transition-colors" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">논문 링크 (URL)</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1.5">논문 링크 (URL)</label>
               <input type="url" value={edit.link_url} onChange={e => setEdit({ ...edit, link_url: e.target.value })}
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors" />
+                className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-primary/50 transition-colors" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">DOI link</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1.5">DOI link</label>
               <input type="url" value={edit.doi_url} onChange={e => setEdit({ ...edit, doi_url: e.target.value })}
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors" />
+                className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-primary/50 transition-colors" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Image</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1.5">Image</label>
               <ImageUpload
                 value={edit.image_url || ""}
                 onChange={(url) => setEdit({ ...edit, image_url: url })}
@@ -147,13 +147,13 @@ export default function PublicationsManagePage() {
             </div>
             <div className="flex items-center gap-2">
               <input type="checkbox" checked={edit.is_featured} onChange={e => setEdit({ ...edit, is_featured: e.target.checked })}
-                className="rounded border-white/10 bg-white/5 text-red-500" />
-              <label className="text-sm text-gray-300">홈페이지 Featured 출판물로 표시</label>
+                className="rounded border-border bg-muted/60 text-primary" />
+              <label className="text-sm text-muted-foreground">홈페이지 Featured 출판물로 표시</label>
             </div>
             <div className="flex justify-end gap-2 pt-2">
-              <button onClick={() => setEdit(null)} className="rounded-lg border border-white/10 px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors">취소</button>
+              <button onClick={() => setEdit(null)} className="rounded-lg border border-border px-4 py-2 text-sm text-gray-400 hover:text-foreground transition-colors">취소</button>
               <button onClick={handleSave} disabled={saving || !edit.title || !edit.authors || !edit.year}
-                className="rounded-lg bg-red-600 hover:bg-red-700 disabled:opacity-50 px-4 py-2 text-sm font-medium text-white transition-colors">
+                className="rounded-lg bg-primary hover:bg-primary/90 disabled:opacity-50 px-4 py-2 text-sm font-medium text-primary-foreground transition-colors">
                 {saving ? "저장 중..." : "저장"}
               </button>
             </div>

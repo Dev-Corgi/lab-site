@@ -6,6 +6,7 @@ import { LinkButton } from "@/components/link-button";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { fetchCmsListWithAnonFallback } from "@/lib/cms-browser";
 import { useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/context";
 
@@ -44,8 +45,14 @@ export default function MembersPage() {
 
   const loadData = async () => {
     const [{ data: membersData }, { data: alumniData }] = await Promise.all([
-      supabase.from("team_members").select("*").order("sort_order"),
-      supabase.from("alumni").select("*").order("year", { ascending: false })
+      fetchCmsListWithAnonFallback("team-members", async () => {
+        const { data } = await supabase.from("team_members").select("*").order("sort_order");
+        return data ?? [];
+      }).then((rows) => ({ data: rows })),
+      fetchCmsListWithAnonFallback("alumni-list", async () => {
+        const { data } = await supabase.from("alumni").select("*").order("year", { ascending: false });
+        return data ?? [];
+      }).then((rows) => ({ data: rows })),
     ]);
     
     if (membersData) setMembers(membersData);
@@ -71,18 +78,18 @@ export default function MembersPage() {
     return (
       <div className="container mx-auto px-4 lg:px-8 py-10">
         <div className="h-8 w-32 bg-white/10 rounded-lg animate-pulse mb-4" />
-        <div className="h-4 w-64 bg-white/5 rounded-lg animate-pulse mb-8" />
+        <div className="h-4 w-64 bg-muted/60 rounded-lg animate-pulse mb-8" />
         <div className="space-y-12">
           {[1, 2, 3].map((section) => (
             <div key={section}>
               <div className="h-6 w-40 bg-white/10 rounded-lg animate-pulse mb-4" />
               <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="rounded-lg border border-white/5 bg-white/5 overflow-hidden animate-pulse">
-                    <div className="aspect-3/4 bg-white/5" />
+                  <div key={i} className="rounded-lg border border-border bg-muted/60 overflow-hidden animate-pulse">
+                    <div className="aspect-3/4 bg-muted/60" />
                     <div className="p-3 space-y-2">
                       <div className="h-4 bg-white/10 rounded" />
-                      <div className="h-3 bg-white/5 rounded w-2/3" />
+                      <div className="h-3 bg-muted/60 rounded w-2/3" />
                     </div>
                   </div>
                 ))}
@@ -100,21 +107,21 @@ export default function MembersPage() {
         title={t("구성원", "Members")}
         breadcrumb={t("구성원", "Members")}
         description={t(
-          "Quantum Dynamics Lab의 구성원을 소개합니다.",
-          "Meet the members of Quantum Dynamics Lab at Stellar University."
+          "Fiber Optics Labratory의 구성원을 소개합니다.",
+          "Meet the members of Fiber Optics Labratory at Stellar University."
         )}
       />
       
       {showAlumni ? (
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-white">{t("동문", "Alumni")}</h2>
+          <h2 className="text-2xl font-bold text-foreground">{t("동문", "Alumni")}</h2>
           {alumni.length > 0 ? (
             <div className="space-y-3">
               {alumni.map((a) => (
-                <div key={a.id} className="rounded-lg border border-white/5 bg-card p-4">
+                <div key={a.id} className="rounded-lg border border-border bg-card p-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="font-medium text-white">{a.name}</p>
+                      <p className="font-medium text-foreground">{a.name}</p>
                       <p className="text-sm text-gray-500">{a.year} · {a.degree}</p>
                       {a.current_position && (
                         <p className="text-sm text-blue-400 mt-1">{a.current_position}</p>

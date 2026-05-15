@@ -55,36 +55,36 @@ export default function NewsManagePage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">뉴스 관리</h1>
+          <h1 className="text-2xl font-bold text-foreground">뉴스 관리</h1>
           <p className="text-sm text-gray-500 mt-1">총 {items.length}개 소식</p>
         </div>
         <button onClick={() => setEdit({ ...empty })}
-          className="flex items-center gap-1.5 rounded-lg bg-red-600 hover:bg-red-700 px-4 py-2 text-sm font-medium text-white transition-colors">
+          className="flex items-center gap-1.5 rounded-lg bg-primary hover:bg-primary/90 px-4 py-2 text-sm font-medium text-primary-foreground transition-colors">
           <Plus className="h-4 w-4" /> 뉴스 추가
         </button>
       </div>
 
-      {msg && <div className="mb-4 rounded-lg px-4 py-2.5 text-sm bg-green-500/10 text-green-400 border border-green-500/20">{msg}</div>}
+      {msg && <div className="mb-4 rounded-lg px-4 py-2.5 text-sm bg-green-500/10 text-green-700 border border-green-500/30">{msg}</div>}
 
       <div className="flex gap-3 mb-5">
         <select value={filterYear} onChange={e => setFilterYear(e.target.value)}
-          className="rounded-lg border border-white/10 bg-[#0d0d16] px-3 py-2 text-sm text-white outline-none [&>option]:bg-[#0d0d16] [&>option]:text-white">
-          <option value="all" className="bg-[#0d0d16] text-white">전체 연도</option>
-          {years.map(y => <option key={y} value={y} className="bg-[#0d0d16] text-white">{y}</option>)}
+          className="rounded-lg border border-border bg-sidebar px-3 py-2 text-sm text-foreground outline-none [&>option]:bg-sidebar \[\&>option\]:text-foreground">
+          <option value="all" className="bg-sidebar text-foreground">전체 연도</option>
+          {years.map(y => <option key={y} value={y} className="bg-sidebar text-foreground">{y}</option>)}
         </select>
       </div>
 
       <div className="space-y-2">
         {filtered.map(n => (
-          <div key={n.id} className="rounded-xl border border-white/5 bg-[#0d0d18] p-4 flex items-start justify-between gap-3">
+          <div key={n.id} className="rounded-xl border border-border bg-card p-4 flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-xs text-red-400 mb-1">{n.date_display}</p>
-              <p className="text-sm text-gray-300 leading-relaxed">{n.content}</p>
+              <p className="text-xs text-primary mb-1">{n.date_display}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">{n.content}</p>
               {n.link_url && <p className="text-xs text-blue-400 mt-1 truncate">{n.link_url}</p>}
             </div>
             <div className="flex gap-1.5 shrink-0">
-              <button onClick={() => setEdit(n)} className="text-gray-500 hover:text-white"><Pencil className="h-4 w-4" /></button>
-              <button onClick={() => handleDelete(n.id)} className="text-gray-500 hover:text-red-400"><Trash2 className="h-4 w-4" /></button>
+              <button onClick={() => setEdit(n)} className="text-gray-500 hover:text-foreground"><Pencil className="h-4 w-4" /></button>
+              <button onClick={() => handleDelete(n.id)} className="text-gray-500 hover:text-primary"><Trash2 className="h-4 w-4" /></button>
             </div>
           </div>
         ))}
@@ -93,31 +93,31 @@ export default function NewsManagePage() {
 
       {edit && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-          <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#0d0d18] p-6 space-y-4">
+          <div className="w-full max-w-md rounded-xl border border-border bg-card p-6 space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-bold text-white">{edit.id ? "뉴스 편집" : "뉴스 추가"}</h2>
-              <button onClick={() => setEdit(null)} className="text-gray-500 hover:text-white"><X className="h-5 w-5" /></button>
+              <h2 className="text-lg font-bold text-foreground">{edit.id ? "뉴스 편집" : "뉴스 추가"}</h2>
+              <button onClick={() => setEdit(null)} className="text-gray-500 hover:text-foreground"><X className="h-5 w-5" /></button>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">날짜 <span className="text-red-400">*</span></label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1.5">날짜 <span className="text-primary">*</span></label>
               <input type="date" value={edit.date} onChange={e => setEdit({ ...edit, date: e.target.value, date_display: formatDateDisplay(e.target.value) })}
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors" />
+                className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-primary/50 transition-colors" />
               {edit.date_display && <p className="text-xs text-gray-500 mt-1">표시: {edit.date_display}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">내용 <span className="text-red-400">*</span></label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1.5">내용 <span className="text-primary">*</span></label>
               <textarea rows={3} value={edit.content} onChange={e => setEdit({ ...edit, content: e.target.value })}
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors resize-none" />
+                className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-primary/50 transition-colors resize-none" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">관련 링크 (선택)</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1.5">관련 링크 (선택)</label>
               <input type="url" value={edit.link_url} onChange={e => setEdit({ ...edit, link_url: e.target.value })}
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none focus:border-red-500/50 transition-colors" />
+                className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-primary/50 transition-colors" />
             </div>
             <div className="flex justify-end gap-2 pt-2">
-              <button onClick={() => setEdit(null)} className="rounded-lg border border-white/10 px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors">취소</button>
+              <button onClick={() => setEdit(null)} className="rounded-lg border border-border px-4 py-2 text-sm text-gray-400 hover:text-foreground transition-colors">취소</button>
               <button onClick={handleSave} disabled={saving || !edit.date || !edit.content}
-                className="rounded-lg bg-red-600 hover:bg-red-700 disabled:opacity-50 px-4 py-2 text-sm font-medium text-white transition-colors">
+                className="rounded-lg bg-primary hover:bg-primary/90 disabled:opacity-50 px-4 py-2 text-sm font-medium text-primary-foreground transition-colors">
                 {saving ? "저장 중..." : "저장"}
               </button>
             </div>

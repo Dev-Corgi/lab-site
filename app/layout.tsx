@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Quantum Dynamics Lab - Stellar University Physics",
+  title: "Fiber Optics Labratory - Stellar University Physics",
   description:
-    "Quantum Dynamics Lab at Stellar University - Research in quantum computing, condensed matter physics, and theoretical physics.",
+    "Fiber Optics Labratory at Stellar University - Research in quantum computing, condensed matter physics, and theoretical physics.",
 };
 
 export default function RootLayout({

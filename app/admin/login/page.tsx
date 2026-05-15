@@ -95,53 +95,53 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a12] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <svg width="48" height="48" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="20" cy="20" r="3" fill="#ef4444" />
-              <ellipse cx="20" cy="20" rx="16" ry="6" stroke="#ef4444" strokeWidth="1.5" fill="none" />
-              <ellipse cx="20" cy="20" rx="16" ry="6" stroke="#ef4444" strokeWidth="1.5" fill="none" transform="rotate(60 20 20)" />
-              <ellipse cx="20" cy="20" rx="16" ry="6" stroke="#ef4444" strokeWidth="1.5" fill="none" transform="rotate(120 20 20)" />
+              <circle cx="20" cy="20" r="3" fill="#0ea5e9" />
+              <ellipse cx="20" cy="20" rx="16" ry="6" stroke="#0ea5e9" strokeWidth="1.5" fill="none" />
+              <ellipse cx="20" cy="20" rx="16" ry="6" stroke="#0ea5e9" strokeWidth="1.5" fill="none" transform="rotate(60 20 20)" />
+              <ellipse cx="20" cy="20" rx="16" ry="6" stroke="#0ea5e9" strokeWidth="1.5" fill="none" transform="rotate(120 20 20)" />
             </svg>
           </div>
-          <h1 className="text-xl font-bold text-white">Quantum Dynamics Lab</h1>
-          <p className="text-sm text-gray-500 mt-1">관리자 로그인</p>
+          <h1 className="text-xl font-bold text-foreground">Fiber Optics Labratory</h1>
+          <p className="text-sm text-muted-foreground mt-1">관리자 로그인</p>
         </div>
 
-        <form onSubmit={handleLogin} className="rounded-xl border border-white/10 bg-[#0d0d18] p-6 space-y-4">
+        <form onSubmit={handleLogin} className="rounded-xl border border-border bg-card p-6 space-y-4">
           {error && (
-            <div className="rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-400">
+            <div className="rounded-lg bg-destructive/10 border border-destructive/25 px-4 py-3 text-sm text-destructive">
               {error}
             </div>
           )}
           {info && (
-            <div className="rounded-lg bg-green-500/10 border border-green-500/20 px-4 py-3 text-sm text-green-400">
+            <div className="rounded-lg bg-green-500/10 border border-green-500/30 px-4 py-3 text-sm text-green-700">
               {info}
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1.5">이메일</label>
+            <label className="block text-sm font-medium text-muted-foreground mb-1.5">이메일</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-gray-600 outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
+              className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-colors"
               placeholder="admin@example.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1.5">비밀번호</label>
+            <label className="block text-sm font-medium text-muted-foreground mb-1.5">비밀번호</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-gray-600 outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
+              className="w-full rounded-lg border border-border bg-muted/60 px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-colors"
               placeholder="••••••••"
             />
           </div>
@@ -149,21 +149,21 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-red-600 hover:bg-red-700 disabled:bg-red-600/50 px-4 py-2.5 text-sm font-medium text-white transition-colors"
+            className="w-full rounded-lg bg-primary hover:bg-primary/90 disabled:bg-primary/50 px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors"
           >
             {loading ? (mode === "signup" ? "생성 중..." : "로그인 중...") : (mode === "signup" ? "계정 생성" : "로그인")}
           </button>
         </form>
 
-        <p className="text-center text-xs text-gray-500 mt-4">
-          <button onClick={() => { setMode(mode === "login" ? "signup" : "login"); setError(""); setInfo(""); }}
-            className="text-red-400/70 hover:text-red-400 transition-colors">
+        <p className="text-center text-xs text-muted-foreground mt-4">
+          <button type="button" onClick={() => { setMode(mode === "login" ? "signup" : "login"); setError(""); setInfo(""); }}
+            className="text-primary hover:text-sky-700 transition-colors">
             {mode === "login" ? "관리자 계정 생성" : "로그인으로 돌아가기"}
           </button>
         </p>
 
         <p className="text-center text-xs text-gray-600 mt-4">
-          © 2026 Quantum Dynamics Lab. Admin Panel.
+          © 2026 Fiber Optics Labratory. Admin Panel.
         </p>
       </div>
     </div>

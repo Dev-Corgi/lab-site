@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/page-header";
 import { Calendar, Pin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { fetchCmsListWithAnonFallback } from "@/lib/cms-browser";
 import { useI18n } from "@/lib/i18n/context";
 
 interface Notice {
@@ -30,13 +31,16 @@ export default function NoticesPage() {
   }, []);
 
   const loadNotices = async () => {
-    const { data } = await supabase
-      .from("notices")
-      .select("*")
-      .order("is_pinned", { ascending: false })
-      .order("event_date", { ascending: false });
+    const data = await fetchCmsListWithAnonFallback("notices", async () => {
+      const { data: rows } = await supabase
+        .from("notices")
+        .select("*")
+        .order("is_pinned", { ascending: false })
+        .order("event_date", { ascending: false });
+      return rows ?? [];
+    });
     
-    if (data) setNotices(data);
+    if (Array.isArray(data)) setNotices(data as Notice[]);
     setLoading(false);
   };
 
@@ -66,7 +70,7 @@ export default function NoticesPage() {
     return (
       <div className="container mx-auto px-4 lg:px-8 py-10">
         <div className="h-8 w-32 bg-white/10 rounded-lg animate-pulse mb-4" />
-        <div className="h-4 w-64 bg-white/5 rounded-lg animate-pulse mb-8" />
+        <div className="h-4 w-64 bg-muted/60 rounded-lg animate-pulse mb-8" />
         <div className="flex gap-2 mb-6">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="h-8 w-20 bg-white/10 rounded-lg animate-pulse" />
@@ -74,13 +78,13 @@ export default function NoticesPage() {
         </div>
         <div className="space-y-4">
           {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="rounded-lg border border-white/5 bg-white/5 p-5 animate-pulse">
+            <div key={i} className="rounded-lg border border-border bg-muted/60 p-5 animate-pulse">
               <div className="flex items-center gap-2 mb-3">
                 <div className="h-5 w-16 bg-white/10 rounded" />
-                <div className="h-4 w-24 bg-white/5 rounded" />
+                <div className="h-4 w-24 bg-muted/60 rounded" />
               </div>
               <div className="h-5 bg-white/10 rounded mb-2" />
-              <div className="h-4 bg-white/5 rounded w-full" />
+              <div className="h-4 bg-muted/60 rounded w-full" />
             </div>
           ))}
         </div>
@@ -106,8 +110,8 @@ export default function NoticesPage() {
             onClick={() => setFilter(type)}
             className={`px-4 py-2 rounded-lg text-sm transition-colors ${
               filter === type
-                ? "bg-red-500/10 text-red-400 border border-red-500/20"
-                : "text-gray-500 border border-white/5 hover:text-gray-300"
+                ? "bg-destructive/10 text-destructive border border-destructive/20"
+                : "text-gray-500 border border-border hover:text-muted-foreground"
             }`}
           >
             {type === "all" ? t("전체", "All") : getTypeLabel(type)}
@@ -120,13 +124,13 @@ export default function NoticesPage() {
           filtered.map((notice) => (
             <div
               key={notice.id}
-              className="rounded-lg border border-white/5 bg-card p-6 hover:bg-accent/50 transition-colors"
+              className="rounded-lg border border-border bg-card p-6 hover:bg-accent/50 transition-colors"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     {notice.is_pinned && (
-                      <Pin className="h-4 w-4 text-red-400" />
+                      <Pin className="h-4 w-4 text-primary" />
                     )}
                     <span className={`px-2 py-0.5 rounded text-xs border ${getTypeColor(notice.notice_type)}`}>
                       {getTypeLabel(notice.notice_type)}
@@ -138,7 +142,7 @@ export default function NoticesPage() {
                       </span>
                     )}
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">
+                  <h3 className="text-lg font-semibold text-foreground mb-2">
                     {language === "ko" ? notice.title_kr : notice.title_en}
                   </h3>
                   <p className="text-sm text-gray-400 whitespace-pre-wrap">

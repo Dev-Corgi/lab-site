@@ -27,38 +27,39 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
 
   if (checking) {
     return (
-      <div className="min-h-screen bg-[#0a0a12] flex items-center justify-center">
-        <div className="text-gray-500 text-sm">로딩 중...</div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-muted-foreground text-sm">로딩 중...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a12] flex">
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex lg:w-56 flex-col border-r border-white/5 bg-[#0d0d16] fixed inset-y-0 left-0 z-40">
+    <div className="min-h-screen bg-background flex">
+      <aside className="hidden lg:flex lg:w-56 flex-col border-r border-border bg-sidebar fixed inset-y-0 left-0 z-40">
         <Sidebar onLogout={handleLogout} />
       </aside>
 
-      {/* Mobile overlay */}
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
-          <div className="w-56 bg-[#0d0d16] border-r border-white/5 flex flex-col">
+          <div className="w-56 bg-sidebar border-r border-border flex flex-col">
             <Sidebar onLogout={handleLogout} onNav={() => setMobileOpen(false)} />
           </div>
-          <div className="flex-1 bg-black/60" onClick={() => setMobileOpen(false)} />
+          <button
+            type="button"
+            className="flex-1 bg-foreground/20 cursor-default border-0 p-0"
+            aria-label="Close menu overlay"
+            onClick={() => setMobileOpen(false)}
+          />
         </div>
       )}
 
-      {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 inset-x-0 z-40 h-12 bg-[#0d0d16] border-b border-white/5 flex items-center justify-between px-4">
-        <span className="text-sm font-semibold text-white">Admin</span>
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="text-gray-400 hover:text-white">
+      <div className="lg:hidden fixed top-0 inset-x-0 z-40 h-12 bg-sidebar border-b border-border flex items-center justify-between px-4">
+        <span className="text-sm font-semibold text-foreground">Admin</span>
+        <button type="button" onClick={() => setMobileOpen(!mobileOpen)} className="text-muted-foreground hover:text-foreground">
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
-      {/* Main Content */}
       <main className="flex-1 lg:ml-56 pt-12 lg:pt-0">
         <div className="p-6 lg:p-8 max-w-5xl">{children}</div>
       </main>

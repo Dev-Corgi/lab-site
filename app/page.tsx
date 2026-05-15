@@ -7,6 +7,7 @@ import { FeaturedPublications } from "./_components/featured-publications";
 import { useI18n } from "@/lib/i18n/context";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { fetchCmsListWithAnonFallback } from "@/lib/cms-browser";
 
 const defaultSupporters = [
   { name: "NSF" },
@@ -20,10 +21,13 @@ export default function Home() {
 
   useEffect(() => {
     const loadSupporters = async () => {
-      const supabase = createClient();
-      const { data } = await supabase.from("supporters").select("*");
-      if (data && data.length > 0) {
-        setSupporters(data);
+      const data = await fetchCmsListWithAnonFallback("supporters", async () => {
+        const supabase = createClient();
+        const { data: rows } = await supabase.from("supporters").select("*").order("sort_order", { ascending: true });
+        return rows ?? [];
+      });
+      if (data.length > 0) {
+        setSupporters(data as typeof defaultSupporters);
       }
     };
     loadSupporters();

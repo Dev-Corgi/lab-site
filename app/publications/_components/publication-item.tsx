@@ -22,11 +22,11 @@ export function PublicationItem({
   return (
     <div className="flex gap-4 py-4 border-b border-border/50">
       {/* Thumbnail placeholder */}
-      <div className="hidden sm:flex shrink-0 w-16 h-16 rounded bg-[#1a1a2e] items-center justify-center">
+      <div className="hidden sm:flex shrink-0 w-16 h-16 rounded bg-sky-50 items-center justify-center">
         <span className="text-gray-700 text-[8px]">IMG</span>
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-white leading-snug">{title}</p>
+        <p className="text-sm font-medium text-foreground leading-snug">{title}</p>
         <p className="text-xs text-gray-500 mt-1 truncate">{authors}</p>
         <p className="text-xs text-gray-400 mt-0.5">
           <span className="italic">{journal}</span>

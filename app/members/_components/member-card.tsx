@@ -57,7 +57,7 @@ export function MemberCard({
         onMouseMove={handleMouseMove}
       >
         {/* Photo - Unified size for all members */}
-        <div className="aspect-3/4 bg-[#1a1a2e] flex items-center justify-center relative">
+        <div className="aspect-3/4 bg-sky-50 flex items-center justify-center relative">
           {photoUrl ? (
             <img src={photoUrl} alt={name} className="w-full h-full object-cover" />
           ) : (
@@ -66,7 +66,7 @@ export function MemberCard({
         </div>
         
         <div className="p-3">
-          <p className="text-sm font-medium text-white">{name}</p>
+          <p className="text-sm font-medium text-foreground">{name}</p>
           <p className="text-xs text-gray-500">{nameKr}</p>
           <p className="text-xs text-gray-400 mt-0.5">{role}</p>
           {badges && badges.length > 0 && (
@@ -90,22 +90,22 @@ export function MemberCard({
             top: tooltip.y,
           }}
         >
-          <div className="bg-[#1a1a2e] border border-white/10 rounded-lg px-3 py-2 shadow-xl whitespace-nowrap">
+          <div className="bg-sky-50 border border-border rounded-lg px-3 py-2 shadow-xl whitespace-nowrap">
             {role && (
               <div className="mb-1.5">
                 <p className="text-gray-400 text-[10px] mb-0.5">직책</p>
-                <p className="text-white text-xs">{role}</p>
+                <p className="text-foreground text-xs">{role}</p>
               </div>
             )}
             {currentPosition && (
               <div>
                 <p className="text-gray-400 text-[10px] mb-0.5">현재 직장/소속 (졸업 후)</p>
-                <p className="text-white text-xs">{currentPosition}</p>
+                <p className="text-foreground text-xs">{currentPosition}</p>
               </div>
             )}
           </div>
           {/* Arrow */}
-          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1a1a2e] border-r border-b border-white/10 rotate-45"></div>
+          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-sky-50 border-r border-b border-border rotate-45"></div>
         </div>
       )}
     </>

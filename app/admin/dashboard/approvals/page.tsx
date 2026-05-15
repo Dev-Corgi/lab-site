@@ -121,33 +121,33 @@ export default function ApprovalsPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">관리자 승인</h1>
+        <h1 className="text-2xl font-bold text-foreground">관리자 승인</h1>
         <p className="text-sm text-gray-500 mt-1">슈퍼 관리자 전용 페이지</p>
       </div>
 
       {msg && (
-        <div className="mb-4 rounded-lg px-4 py-2.5 text-sm bg-green-500/10 text-green-400 border border-green-500/20">
+        <div className="mb-4 rounded-lg px-4 py-2.5 text-sm bg-green-500/10 text-green-700 border border-green-500/30">
           {msg}
         </div>
       )}
 
       {/* Pending Approvals */}
       <div className="mb-8">
-        <h2 className="text-lg font-semibold text-red-400 mb-4">승인 대기 중 ({pendingUsers.length})</h2>
+        <h2 className="text-lg font-semibold text-primary mb-4">승인 대기 중 ({pendingUsers.length})</h2>
         {pendingUsers.length === 0 ? (
-          <div className="rounded-xl border border-white/5 bg-[#0d0d18] p-6 text-center text-gray-500 text-sm">
+          <div className="rounded-xl border border-border bg-card p-6 text-center text-gray-500 text-sm">
             승인 대기 중인 계정이 없습니다.
           </div>
         ) : (
           <div className="space-y-2">
             {pendingUsers.map((user) => (
-              <div key={user.id} className="rounded-xl border border-white/5 bg-[#0d0d18] p-4 flex items-center justify-between">
+              <div key={user.id} className="rounded-xl border border-border bg-card p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-500/10">
-                    <User className="h-5 w-5 text-red-400" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                    <User className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-white">{user.email}</p>
+                    <p className="text-sm font-medium text-foreground">{user.email}</p>
                     <p className="text-xs text-gray-500">
                       요청일: {new Date(user.created_at).toLocaleDateString("ko-KR")}
                     </p>
@@ -162,7 +162,7 @@ export default function ApprovalsPage() {
                   </button>
                   <button
                     onClick={() => handleReject(user.id, user.email)}
-                    className="flex items-center gap-1.5 rounded-lg bg-red-600 hover:bg-red-700 px-3 py-1.5 text-xs font-medium text-white transition-colors"
+                    className="flex items-center gap-1.5 rounded-lg bg-primary hover:bg-primary/90 px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors"
                   >
                     <X className="h-3.5 w-3.5" /> 거부
                   </button>
@@ -175,20 +175,20 @@ export default function ApprovalsPage() {
 
       {/* All Users */}
       <div>
-        <h2 className="text-lg font-semibold text-white mb-4">전체 관리자 목록 ({allUsers.length})</h2>
+        <h2 className="text-lg font-semibold text-foreground mb-4">전체 관리자 목록 ({allUsers.length})</h2>
         <div className="space-y-2">
           {allUsers.map((user) => (
-            <div key={user.id} className="rounded-xl border border-white/5 bg-[#0d0d18] p-4">
+            <div key={user.id} className="rounded-xl border border-border bg-card p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-full ${user.is_super_admin ? "bg-yellow-500/10" : "bg-blue-500/10"}`}>
-                    <User className={`h-5 w-5 ${user.is_super_admin ? "text-yellow-400" : "text-blue-400"}`} />
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-full ${user.is_super_admin ? "bg-amber-500/15" : "bg-blue-500/10"}`}>
+                    <User className={`h-5 w-5 ${user.is_super_admin ? "text-amber-700" : "text-blue-400"}`} />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium text-white">{user.email}</p>
+                      <p className="text-sm font-medium text-foreground">{user.email}</p>
                       {user.is_super_admin && (
-                        <span className="text-xs px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-400 font-medium">
+                        <span className="text-xs px-2 py-0.5 rounded bg-amber-500/15 text-amber-700 font-medium">
                           슈퍼 관리자
                         </span>
                       )}
@@ -211,7 +211,7 @@ export default function ApprovalsPage() {
                 {user.email !== currentUser.email && user.is_approved && (
                   <button
                     onClick={() => toggleSuperAdmin(user.id, user.email, user.is_super_admin)}
-                    className="text-xs px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/5 text-gray-300 transition-colors"
+                    className="text-xs px-3 py-1.5 rounded-lg border border-border hover:bg-muted/60 text-muted-foreground transition-colors"
                   >
                     {user.is_super_admin ? "슈퍼 관리자 해제" : "슈퍼 관리자 지정"}
                   </button>

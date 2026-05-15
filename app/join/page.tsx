@@ -9,12 +9,12 @@ export default async function JoinPage() {
       <PageHeader
         title="Open Positions"
         breadcrumb="Join"
-        description={job?.intro_text || "Thank you for your interest in joining the Quantum Dynamics Lab."}
+        description={job?.intro_text || "Thank you for your interest in joining the Fiber Optics Labratory."}
       />
 
       {/* Postdoctoral Researchers */}
       <div className="mb-10">
-        <h2 className="text-xl font-bold text-red-400 mb-4">
+        <h2 className="text-xl font-bold text-primary mb-4">
           Postdoctoral Researchers
           {job && !job.postdoc_recruiting && <span className="text-xs text-gray-500 ml-2 font-normal">(Currently not recruiting)</span>}
         </h2>
@@ -30,7 +30,7 @@ export default async function JoinPage() {
 
       {/* Graduate Students */}
       <div className="mb-10">
-        <h2 className="text-xl font-bold text-red-400 mb-4">
+        <h2 className="text-xl font-bold text-primary mb-4">
           Graduate Students
           {job && !job.graduate_recruiting && <span className="text-xs text-gray-500 ml-2 font-normal">(Currently not recruiting)</span>}
         </h2>
@@ -46,7 +46,7 @@ export default async function JoinPage() {
 
       {/* Undergraduate Interns */}
       <div>
-        <h2 className="text-xl font-bold text-red-400 mb-4">
+        <h2 className="text-xl font-bold text-primary mb-4">
           Undergraduate Interns
           {job && !job.intern_recruiting && <span className="text-xs text-gray-500 ml-2 font-normal">(Currently not recruiting)</span>}
         </h2>

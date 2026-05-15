@@ -43,9 +43,9 @@ export function ImageUpload({ value, onChange, folder = "general" }: ImageUpload
   if (value) {
     return (
       <div className="relative inline-block">
-        <img src={value} alt="" className="h-24 w-24 rounded-lg object-cover border border-white/10" />
+        <img src={value} alt="" className="h-24 w-24 rounded-lg object-cover border border-border" />
         <button onClick={handleRemove}
-          className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-red-600 flex items-center justify-center text-white hover:bg-red-700">
+          className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-primary flex items-center justify-center text-primary-foreground hover:bg-primary/90">
           <X className="h-3 w-3" />
         </button>
       </div>
@@ -55,7 +55,7 @@ export function ImageUpload({ value, onChange, folder = "general" }: ImageUpload
   return (
     <div {...getRootProps()}
       className={`flex flex-col items-center justify-center rounded-lg border-2 border-dashed px-4 py-6 cursor-pointer transition-colors ${
-        isDragActive ? "border-red-500/50 bg-red-500/5" : "border-white/10 hover:border-white/20 bg-white/[0.02]"
+        isDragActive ? "border-primary/50 bg-red-500/5" : "border-border hover:border-border bg-white/[0.02]"
       }`}>
       <input {...getInputProps()} />
       {uploading ? (
